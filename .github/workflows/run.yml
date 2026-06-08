@@ -1,5 +1,8 @@
 name: Jakpost Popular Scraper
 
+permissions:
+  contents: write
+  
 on:
   schedule:
     - cron: "0 2 * * *"   # 09:00 WIB
