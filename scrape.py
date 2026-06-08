@@ -37,7 +37,13 @@ if section:
         results.append(f"{title} | {href}")
 
 # save output
-with open("popular.txt", "w", encoding="utf-8") as f:
-    f.write("\n".join(results))
+import csv
 
-print("\n".join(results))
+with open("popular.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Title", "URL"])
+
+    for item in results:
+        if "|" in item:
+            title, link = item.split("|", 1)
+            writer.writerow([title.strip(), link.strip()])
