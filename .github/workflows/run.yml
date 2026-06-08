@@ -25,8 +25,8 @@ jobs:
       - name: Run scraper
         run: python scrape.py
 
-      - name: Upload result
+      - name: Upload CSV
         uses: actions/upload-artifact@v4
         with:
-          name: popular-articles
-          path: popular.txt
+          name: popular-csv
+          path: popular.csv
