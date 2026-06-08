@@ -12,38 +12,26 @@ soup = BeautifulSoup(r.text, "html.parser")
 
 results = []
 
-# target Popular section
+# find Popular section
 section = soup.select_one("#tjp-home-section-popular")
 
 if section:
-    links = section.select("a")
+    # only take headline text (no description, no links)
+    headlines = section.select("h1.tjp-title")
 
-    seen = set()
+    for h in headlines:
+        title = h.get_text(strip=True)
+        if title:
+            results.append([title])
 
-    for a in links:
-        title = a.get_text(strip=True)
-        href = a.get("href")
-
-        if not title or not href:
-            continue
-
-        if href in seen:
-            continue
-        seen.add(href)
-
-        if not href.startswith("http"):
-            href = "https://www.thejakartapost.com/" + href.lstrip("/")
-
-        results.append(f"{title} | {href}")
-
-# save output
+# write CSV (ONLY TITLES)
 import csv
 
 with open("popular.csv", "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
-    writer.writerow(["Title", "URL"])
+    writer.writerow(["Title"])  # header only
 
-    for item in results:
-        if "|" in item:
-            title, link = item.split("|", 1)
-            writer.writerow([title.strip(), link.strip()])
+    for row in results:
+        writer.writerow(row)
+
+print("Done. Saved popular.csv with titles only.")
