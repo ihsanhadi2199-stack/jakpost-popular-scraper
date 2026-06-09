@@ -2,7 +2,7 @@ name: Jakpost Popular Scraper
 
 permissions:
   contents: write
-  
+
 on:
   schedule:
     - cron: "0 1 * * *"
